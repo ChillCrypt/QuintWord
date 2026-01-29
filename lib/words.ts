@@ -1,0 +1,61 @@
+// Список слов из 5 букв для игры
+export const WORDS = [
+  "APPLE",
+  "BRAVE",
+  "CHAOS",
+  "DREAM",
+  "EARTH",
+  "FAITH",
+  "GLORY",
+  "HEART",
+  "IMAGE",
+  "JOKER",
+  "KNIFE",
+  "LIGHT",
+  "MAGIC",
+  "NIGHT",
+  "OCEAN",
+  "PEACE",
+  "QUICK",
+  "RIVER",
+  "STORM",
+  "TRUTH",
+  "UNITY",
+  "VOICE",
+  "WATER",
+  "YOUTH",
+  "ZEBRA",
+  "BASIC",
+  "CHAIN",
+  "DANCE",
+  "EAGLE",
+  "FOCUS",
+  "GHOST",
+  "HAPPY",
+  "IVORY",
+  "JAZZY",
+  "KNEEL",
+  "LEMON",
+  "MUSIC",
+  "NOVEL",
+  "OLIVE",
+  "PAPER",
+  "QUEEN",
+  "ROBOT",
+  "SMILE",
+  "TIGER",
+  "URBAN",
+  "VIVID",
+  "WHEAT",
+  "XENON",
+  "YACHT",
+  "ZONAL",
+];
+
+export function getRandomWord(): string {
+  return WORDS[Math.floor(Math.random() * WORDS.length)];
+}
+
+export function isValidWord(word: string): boolean {
+  return word.length === 5 && /^[A-Z]+$/.test(word);
+}
