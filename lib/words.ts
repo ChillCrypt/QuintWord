@@ -1,4 +1,8 @@
-// Список слов из 5 букв для игры
+import { WORDS as HARD_WORDS } from "./words-hard";
+
+export type GameMode = "lite" | "hard";
+
+// Список слов из 5 букв для игры (lite режим)
 export const WORDS = [
   "APPLE",
   "BRAVE",
@@ -52,10 +56,19 @@ export const WORDS = [
   "ZONAL",
 ];
 
-export function getRandomWord(): string {
-  return WORDS[Math.floor(Math.random() * WORDS.length)];
+export function getWordsList(mode: GameMode = "lite"): string[] {
+  return mode === "hard" ? HARD_WORDS : WORDS;
 }
 
-export function isValidWord(word: string): boolean {
-  return word.length === 5 && /^[A-Z]+$/.test(word);
+export function getRandomWord(mode: GameMode = "lite"): string {
+  const wordsList = getWordsList(mode);
+  return wordsList[Math.floor(Math.random() * wordsList.length)];
+}
+
+export function isValidWord(word: string, mode: GameMode = "lite"): boolean {
+  if (word.length !== 5 || !/^[A-Z]+$/.test(word)) {
+    return false;
+  }
+  const wordsList = getWordsList(mode);
+  return wordsList.includes(word.toUpperCase());
 }

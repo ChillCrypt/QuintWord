@@ -6,12 +6,14 @@ import { useAccount } from "wagmi";
 import { GameBoard } from "@/components/GameBoard";
 import { Stats } from "@/components/Stats";
 import { getStats, updateStats } from "@/lib/storage";
+import { GameMode } from "@/lib/words";
 import { motion } from "framer-motion";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
   const [stats, setStats] = useState(getStats(address || ""));
   const [gameKey, setGameKey] = useState(0);
+  const [gameMode, setGameMode] = useState<GameMode>("lite");
 
   useEffect(() => {
     if (address) {
@@ -28,6 +30,11 @@ export default function Home() {
 
   const handleNewGame = () => {
     setGameKey((prev) => prev + 1);
+  };
+
+  const handleModeChange = (mode: GameMode) => {
+    setGameMode(mode);
+    handleNewGame();
   };
 
   if (!isConnected) {
@@ -122,9 +129,36 @@ export default function Home() {
           </div>
         </motion.div>
 
+        <div className="mb-6 flex gap-4 justify-center">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => handleModeChange("lite")}
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              gameMode === "lite"
+                ? "bg-base-blue text-white"
+                : "bg-white border-2 border-base-blue text-base-blue hover:bg-base-blue hover:text-white"
+            }`}
+          >
+            Lite
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => handleModeChange("hard")}
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              gameMode === "hard"
+                ? "bg-base-blue text-white"
+                : "bg-white border-2 border-base-blue text-base-blue hover:bg-base-blue hover:text-white"
+            }`}
+          >
+            Hard
+          </motion.button>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <GameBoard key={gameKey} walletAddress={address || ""} onGameEnd={handleGameEnd} />
+            <GameBoard key={gameKey} walletAddress={address || ""} gameMode={gameMode} onGameEnd={handleGameEnd} />
           </div>
           <div>
             <Stats stats={stats} currentTime={0} />
